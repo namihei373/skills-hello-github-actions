@@ -1,15 +1,19 @@
-name: Post welcome comment
-on:
-  pull_request:
-    types: [opened]
-permissions:
-  pull-requests: write
-jobs:
-  build:
-    name: Post welcome comment
-    runs-on: ubuntu-latest
-    steps:
-      - run: gh pr comment $PR_URL --body "Welcome to the repository!"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+name: Post welcome comment  #ワークフローの名前
+
+#ワークフローを自動的に実行するトリガーの定義
+on:  
+  pull_request:  #トリガーの対象
+    types: [opened]  #トリガーの状態 [開いたとき]
+
+#トリガー(on:)が成立したときに行われること
+jobs:  
+  build: 
+    name: Post welcome comment  #このjobの名前
+    runs-on: ubuntu-latest  #jobが実行される環境
+
+    #自動化で行われることの内容
+    steps:  
+      - run: gh pr comment $PR_URL --body "Welcome to the repository!" #このステップで実行するコマンド
+        env:  #環境変数
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  #認証のためのgithubトークン
           PR_URL: ${{ github.event.pull_request.html_url }}
